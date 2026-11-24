@@ -1,0 +1,30 @@
+# Keil uVision per-user state
+*.uvguix.*
+*.uvoptx
+
+# Build output and generated listings
+Objects/
+output/
+Listings/
+*.axf
+*.hex
+*.bin
+*.elf
+*.map
+*.lst
+*.crf
+*.dep
+*.d
+*.o
+*.sct
+*.lnp
+*.bak
+
+# Editors and operating systems
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Personal course report (contains student name)
+微机原理课程设计报告-*.docx

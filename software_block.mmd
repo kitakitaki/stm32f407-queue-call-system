@@ -1,0 +1,44 @@
+flowchart TB
+    subgraph 应用层 ["应用层 (user/)"]
+        main["main.c\n主函数入口"]
+        running["running_LED.c\n流水灯 + 结束动画"]
+        sw_call["switch_call.c\n系统开关控制"]
+        call_sv["call_service.c\n叫号服务核心"]
+    end
+
+    subgraph 驱动层 ["BSP驱动层 (bsp/)"]
+        led["led.c\nLED驱动\nPE0~PE7"]
+        sw["switch.c\n开关驱动\nPF0~PF7"]
+        dig["digitron.c\n数码管驱动\n74HC595"]
+        beep["beep.c\n蜂鸣器驱动\nPD14"]
+        tim2["Timer2.c\nTIM2定时器\n流水灯0.5s"]
+        tim3["Timer3.c\nTIM3定时器\n闪烁0.5s"]
+        exti["EXTI1_PA1.c\n取号按键中断\nPA1下降沿"]
+    end
+
+    subgraph 系统层 ["系统层 (system/)"]
+        delay["delay.c\n延时函数"]
+        usart["usart.c\n串口通信\n115200bps"]
+    end
+
+    main --> running
+    main --> sw_call
+    sw_call --> call_sv
+    sw_call --> running
+
+    call_sv --> led
+    call_sv --> sw
+    call_sv --> dig
+    call_sv --> tim3
+    call_sv --> exti
+    call_sv --> usart
+
+    running --> led
+    running --> tim2
+    running --> beep
+
+    sw_call --> led
+    sw_call --> sw
+
+    call_sv --> delay
+    running --> delay
